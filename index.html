@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>puzzle game</title>
+        <!---------------------------css start--------------------->
+        <style>
+            *{ margin: 0;padding:0; box-sizing: border-box; }
+            header{
+                width:100%;
+                line-height:15vh;
+                background-color: rgba(205, 77, 152, 0.502);
+            }
+            h1{
+                text-align:center ;
+                color:white;
+                text-transform: uppercase;
+                letter-spacing: 15px;
+                text-shadow: 0 1px 0 #efefef;
+            }
+            section{
+                height:85vh;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                background-color: #FCF6F5FF;
+                
+            }
+            .gamearea {
+
+               width:50%;
+               height:400px;
+               padding:20px 0;
+               background-color:#89ABE3FF;
+               display: flex;
+               flex-direction: column;
+               justify-content: center;
+               align-items: center;
+               box-shadow: 0 8px 6px -6px rgb(168, 193, 234) ;
+
+            }
+            h3{
+               text-align: center;
+               font-size: 1.5rem;
+            }
+            input{
+                width:40%;
+                padding:15px 0;
+                text-align: center;
+                border-radius: 25px;
+                outline: none;
+                background-color: #dff9fb;
+                color:black;
+                margin:2rem 0;
+                font-size:1.1rem;
+            }
+
+            button{
+                font-size: 1rem;
+                cursor: pointer;
+                outline: none;
+                border:whitesmoke;
+                text-decoration: none;
+                margin-top: 10px;
+                color: #b87876;
+            }
+            button.btn{
+                font-weight: 600;
+                padding:1rem 2rem;
+                background:white;
+                text-transform: uppercase;
+                transition-property: all;
+                transition-duration: 0.5s;
+                transition-timing-function: cubic-bezier(0.65, -0.25, 0.25, 1.95);
+
+            }
+            button.btn:hover,button.btn:focus,button.btn:active{
+                letter-spacing: 0.125rem;
+                word-spacing: 0.2rem;
+                
+            }
+ 
+        </style>
+    </head>
+
+
+    <body>
+            <!-- -------------------html start ----------------------------------->
+        <header>
+            <h1> guess the word game  </h1>
+        </header>
+        <section>
+            <div class="gamearea">
+                <h3 class="msg"></h3>
+                <input type="text" class="hidden">
+                <button class="btn" >START THE GAME </button>
+
+            </div>
+        </section>
+
+        <!-----------------------------------------javscript part --------------------->
+        <script>
+            const msg=document.querySelector('.msg');
+            const guess=document.querySelector('input');
+            const btn=document.querySelector('.btn');
+            let play=false;
+            let newwords="";
+            let randwords="";
+            let swords=['pythan','javascript','java','html','css','c++','ruby','development', 'responsive','bootstrap','jquery','Nodejs'
+                 ,'PHP','MySQL','MVC'
+                ,'CMS','API','AJAX','restful',
+                'version','agile','programming','Accessibility'];
+
+            const createnewwords = () =>{
+                let randnum=Math.floor(Math.random()*swords.length);
+                let newtempswords=swords[randnum];
+                return newtempswords;
+            }
+
+            const scramblewords = (arr) => {
+                for(let i= arr.length-1; i>0; i--)
+                {
+                    let temp=arr[i];
+                    console.log(temp);
+                    let j=Math.floor(Math.random()*(i+1));
+                    arr[i]=arr[j];
+                    arr[j]=temp;
+                }
+                return arr;
+            }
+            btn.addEventListener('click',function(){
+                if(!play)
+                {
+                    play =true;
+                    btn.innerHTML="guess";
+                    guess.classList.toggle('hidden');
+                    newwords=createnewwords();
+                    randwords=scramblewords(newwords.split("")).join("");
+                    msg.innerHTML= `Guess the word : ${randwords}`;
+
+                }
+                else
+                {
+                   let tempword=guess.value;
+                   if(tempword === newwords)
+                   {
+                    play=false;
+                    msg.innerHTML=`awesome it's correct .it is ${newwords}`;
+                    btn.innerHTML="play again";
+                    guess.classList.toggle('hidden');
+                    guess.value="";
+                   }
+                   else{
+                    msg.innerHTML=`sorry its Incorrect ,plz try again : ${randwords}`;
+                   }
+                }
+            })
+
+            </script>
+           
+ 
+    </body>
+
+</html>
